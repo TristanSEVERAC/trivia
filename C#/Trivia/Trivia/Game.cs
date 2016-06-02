@@ -8,32 +8,20 @@ namespace UglyTrivia
 {
     public class Game
     {
-
-        List<Player> players = new List<Player>();
-
-        private Questions _questionsByCategory = new Questions();
-
+        readonly List<Player> players = new List<Player>();
+        private readonly Questions _questionsByCategory = new Questions();
         int currentPlayer = 0;
         bool isGettingOutOfPenaltyBox;
+        private int _nbPursesToWin = 6;
 
         public Game()
         {
-            _questionsByCategory["Pop"] = new LinkedList<string>();
-            _questionsByCategory["sport"] = new LinkedList<string>();
-            _questionsByCategory["Science"] = new LinkedList<string>();
-            _questionsByCategory["Rock"] = new LinkedList<string>();
-            for (int i = 0; i < 50; i++)
-            {
-                popQuestions.AddLast("Pop Question " + i);
-                scienceQuestions.AddLast(("Science Question " + i));
-                sportsQuestions.AddLast(("Sports Question " + i));
-                rockQuestions.AddLast(createRockQuestion(i));
-            }
+            
         }
 
-        public String createRockQuestion(int index)
+        public Game(int nbPursesToWin)
         {
-            return "Rock Question " + index;
+            _nbPursesToWin = nbPursesToWin;
         }
 
         public bool isPlayable()
@@ -44,7 +32,7 @@ namespace UglyTrivia
         public bool add(String playerName)
         {
 
-            Player player = new Player(playerName);
+            Player player = new Player(playerName, _nbPursesToWin);
             
             players.Add(player);
 
@@ -56,7 +44,6 @@ namespace UglyTrivia
         public int howManyPlayers()
         {
             
-            //return playersOld.Count;
             return players.Count;
         }
 
@@ -80,7 +67,7 @@ namespace UglyTrivia
                                       + "'s new location is "
                                       + players[currentPlayer].Position);
                     Console.WriteLine("The category is " + currentCategory());
-                    askQuestion();
+                    _questionsByCategory.AskQuestion(currentCategory());
                 }
                 else
                 {
@@ -98,16 +85,9 @@ namespace UglyTrivia
                         + "'s new location is "
                         + players[currentPlayer].Position);
                 Console.WriteLine("The category is " + currentCategory());
-                askQuestion();
+                _questionsByCategory.AskQuestion(currentCategory());
             }
 
-        }
-
-        private void askQuestion()
-        {
-            var questions = _questionsByCategory[currentCategory()];
-            Console.WriteLine(questions.First());
-            questions.RemoveFirst();
         }
 
 

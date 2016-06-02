@@ -11,15 +11,17 @@ namespace Trivia
        
 
         private String playerName;
+        private readonly int _nbPursesToWin;
         private int position;
         private int purses;
         private bool isInPenaltyBox;
 
 
 
-        public Player(string playerName)
+        public Player(string playerName, int nbPursesToWin)
         {
             this.playerName = playerName;
+            _nbPursesToWin = nbPursesToWin;
             this.position = 0;
             this.purses = 0;
             this.isInPenaltyBox = false;
@@ -33,7 +35,7 @@ namespace Trivia
 
         public bool didPlayerWin()
         {
-            return !(this.purses == 6);
+            return !(this.purses == _nbPursesToWin);
         }
 
         public void changePosition(int roll)
